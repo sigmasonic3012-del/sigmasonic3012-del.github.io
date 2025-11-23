@@ -4,12 +4,66 @@
   <meta charset="UTF-8">
   <title>Sign Up Cookie Clicker</title>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Фон из твоего старого кода + стили */
+    body {
+      background: linear-gradient(to bottom, #fceabb, #f8b500); /* красивый градиент */
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #ff6f61;
+      text-shadow: 1px 1px 2px #fff;
+    }
+
+    label {
+      font-size: 20px;
+    }
+
+    input {
+      font-size: 18px;
+      padding: 5px;
+      margin: 5px 0;
+    }
+
+    button {
+      font-size: 22px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    #cookieImg {
+      display: none;
+      width: 200px;
+      margin-top: 20px;
+      transition: transform 0.2s;
+    }
+
+    #cookieImg.jump {
+      transform: translateY(-20px);
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.7);
+      display: inline-block;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
   <h1>Sign Up Cookie Clicker</h1>
 
-  <div id="signupForm">
+  <!-- Форма без action/method чтобы не было 405 -->
+  <form id="signupForm">
     <label for="username">Name:</label>
     <input type="text" id="username" required><br><br>
 
@@ -19,11 +73,43 @@
     <label>Agree that you're not a robot:</label><br>
     <div class="g-recaptcha" data-sitekey="6LcXtBUsAAAAAEQbyeKCcruABSl9QW1-sZE6NZQ0"></div><br>
 
-    <button id="signUpBtn">Sign Up</button>
-  </div>
+    <button type="button" id="signUpBtn">Sign Up</button>
+  </form>
 
   <img id="cookieImg" src="https://png.pngtree.com/png-clipart/20221208/ourmid/pngtree-cartoon-cookies-png-image_6516299.png" alt="Cookie">
 
-  <script src="script.js"></script>
+  <script>
+    const cookieImg = document.getElementById("cookieImg");
+    const signUpBtn = document.getElementById("signUpBtn");
+
+    signUpBtn.addEventListener("click", () => {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const response = grecaptcha.getResponse();
+
+      // Проверка длины имени и пароля
+      if(username.length < 4 || password.length < 4) {
+        alert("Name and password must be at least 4 characters long!");
+        return;
+      }
+
+      // Проверка галочки капчи
+      if(response.length === 0) {
+        alert("Please agree that you're not a robot!");
+        return;
+      }
+
+      // Показать печенье
+      cookieImg.style.display = "block";
+      cookieImg.classList.add("jump");
+      setTimeout(() => cookieImg.classList.remove("jump"), 200);
+    });
+
+    // Прыжок печенья при клике
+    cookieImg.addEventListener("click", () => {
+      cookieImg.classList.add("jump");
+      setTimeout(() => cookieImg.classList.remove("jump"), 200);
+    });
+  </script>
 </body>
 </html>
