@@ -1,0 +1,41 @@
+body {
+  background-color: #fceabb;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding-top: 50px;
+}
+
+h1 {
+  font-size: 48px;
+  color: #ff6f61;
+}
+
+label {
+  font-size: 20px;
+}
+
+input {
+  font-size: 18px;
+  padding: 5px;
+  margin: 5px 0;
+}
+
+button {
+  font-size: 22px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #ffcc00;
+  border: none;
+  border-radius: 8px;
+}
+
+#cookieImg {
+  display: none;
+  width: 200px;
+  margin-top: 20px;
+  transition: transform 0.2s;
+}
+
+#cookieImg.jump {
+  transform: translateY(-20px);
+}

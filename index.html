@@ -4,98 +4,26 @@
   <meta charset="UTF-8">
   <title>Sign Up Cookie Clicker</title>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <style>
-    body {
-      background-color: #fceabb; /* красивый фон */
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 50px;
-    }
-    h1 {
-      font-size: 48px;
-      color: #ff6f61;
-    }
-    label {
-      font-size: 20px;
-    }
-    input {
-      font-size: 18px;
-      padding: 5px;
-      margin: 5px 0;
-    }
-    button {
-      font-size: 22px;
-      padding: 10px 20px;
-      cursor: pointer;
-      background-color: #ffcc00;
-      border: none;
-      border-radius: 8px;
-    }
-    #cookieImg {
-      display: none;
-      width: 200px;
-      margin-top: 20px;
-      transition: transform 0.2s;
-    }
-    /* Анимация прыжка при клике */
-    #cookieImg.jump {
-      transform: translateY(-20px);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Sign Up Cookie Clicker</h1>
 
-  <!-- Убрали action и method, чтобы не было 405 ошибки -->
-  <form id="myForm">
+  <div id="signupForm">
     <label for="username">Name:</label>
-    <input type="text" name="username" id="username" required><br><br>
+    <input type="text" id="username" required><br><br>
 
     <label for="password">Password:</label>
-    <input type="password" name="password" id="password" required><br><br>
+    <input type="password" id="password" required><br><br>
 
     <label>Agree that you're not a robot:</label><br>
     <div class="g-recaptcha" data-sitekey="6LcXtBUsAAAAAEQbyeKCcruABSl9QW1-sZE6NZQ0"></div><br>
 
-    <button type="submit">Sign Up</button>
-  </form>
+    <button id="signUpBtn">Sign Up</button>
+  </div>
 
   <img id="cookieImg" src="https://png.pngtree.com/png-clipart/20221208/ourmid/pngtree-cartoon-cookies-png-image_6516299.png" alt="Cookie">
 
-  <script>
-    const cookieImg = document.getElementById("cookieImg");
-
-    document.getElementById("myForm").addEventListener("submit", function(event) {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      const response = grecaptcha.getResponse();
-
-      // Проверка минимальной длины имени и пароля
-      if(username.length < 4 || password.length < 4) {
-        alert("Name and password must be at least 4 characters long!");
-        event.preventDefault();
-        return;
-      }
-
-      // Проверка капчи
-      if(response.length === 0) {
-        alert("Please agree that you're not a robot!");
-        event.preventDefault();
-        return;
-      }
-
-      event.preventDefault(); // форма не уходит
-      // Показать печенье
-      cookieImg.style.display = "block";
-      cookieImg.classList.add("jump");
-      setTimeout(() => cookieImg.classList.remove("jump"), 200);
-    });
-
-    // При клике на печенье — оно подпрыгивает
-    cookieImg.addEventListener("click", () => {
-      cookieImg.classList.add("jump");
-      setTimeout(() => cookieImg.classList.remove("jump"), 200);
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
