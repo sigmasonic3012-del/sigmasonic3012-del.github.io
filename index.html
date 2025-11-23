@@ -2,143 +2,98 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>sign up</title>
+  <title>Sign Up Cookie Clicker</title>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
   <style>
-    /* --- ФОН в стиле iPhone --- */
     body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-
-      background: linear-gradient(
-        135deg,
-        #7bdff2,
-        #b088f9,
-        #f499c3,
-        #8ec5fc,
-        #e0c3fc
-      );
-      background-size: 400% 400%;
-      animation: gradientMove 12s ease infinite;
-
+      background-color: #fceabb; /* красивый фон */
       font-family: Arial, sans-serif;
-      font-size: 24px;
-      line-height: 1.6;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Анимация мягкого движения фона */
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* --- Блок формы --- */
-    .container {
-      background-color: rgba(255, 255, 255, 0.85);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
-      max-width: 500px;
-      width: 90%;
       text-align: center;
+      padding-top: 50px;
     }
-
     h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      color: #333;
+      font-size: 48px;
+      color: #ff6f61;
     }
-
     label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    input {
-      width: 90%;
-      padding: 14px;
       font-size: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
     }
-
+    input {
+      font-size: 18px;
+      padding: 5px;
+      margin: 5px 0;
+    }
     button {
       font-size: 22px;
-      padding: 14px 40px;
-      border-radius: 10px;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
+      padding: 10px 20px;
       cursor: pointer;
-      transition: 0.3s;
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 8px;
     }
-
-    button:hover {
-      background-color: #3e8e41;
+    #cookieImg {
+      display: none;
+      width: 200px;
+      margin-top: 20px;
+      transition: transform 0.2s;
     }
-
-    .g-recaptcha {
-      transform: scale(1.25);
-      transform-origin: 0 0;
-      margin-bottom: 20px;
+    /* Анимация прыжка при клике */
+    #cookieImg.jump {
+      transform: translateY(-20px);
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>sign up</h1>
+  <h1>Sign Up Cookie Clicker</h1>
 
-    <form id="myForm" action="/.netlify/functions/verify-captcha" method="POST">
-      <label for="username">Name:</label>
-      <input type="text" name="username" id="username" required>
+  <form id="myForm" action="/.netlify/functions/verify-captcha" method="POST">
+    <label for="username">Name:</label>
+    <input type="text" name="username" id="username" required><br><br>
 
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" required>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required><br><br>
 
-      <label>agree that your not a robot:</label>
-      <div class="g-recaptcha" data-sitekey="6LcXtBUsAAAAAEQbyeKCcruABSl9QW1-sZE6NZQ0"></div>
+    <label>Agree that you're not a robot:</label><br>
+    <div class="g-recaptcha" data-sitekey="6LcXtBUsAAAAAEQbyeKCcruABSl9QW1-sZE6NZQ0"></div><br>
 
-      <button type="submit">sign up</button>
-    </form>
-  </div>
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <img id="cookieImg" src="https://png.pngtree.com/png-clipart/20221208/ourmid/pngtree-cartoon-cookies-png-image_6516299.png" alt="Cookie">
 
   <script>
+    const cookieImg = document.getElementById("cookieImg");
+
     document.getElementById("myForm").addEventListener("submit", function(event) {
-      var username = document.getElementById("username").value.trim();
-      var password = document.getElementById("password").value.trim();
-      var response = grecaptcha.getResponse();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const response = grecaptcha.getResponse();
 
-      // Проверка длины имени
-      if (username.length <= 3) {
-        alert("Name must be longer than 3 characters!");
+      // Проверка минимальной длины имени и пароля
+      if(username.length < 4 || password.length < 4) {
+        alert("Name and password must be at least 4 characters long!");
         event.preventDefault();
         return;
       }
 
-      // Проверка длины пароля
-      if (password.length <= 3) {
-        alert("Password must be longer than 3 characters!");
+      // Проверка капчи
+      if(response.length === 0) {
+        alert("Please agree that you're not a robot!");
         event.preventDefault();
         return;
       }
 
-      // Проверка CAPTCHA
-      if (response.length === 0) {
-        alert("please agree that your not a robot!");
-        event.preventDefault();
-        return;
-      }
+      event.preventDefault(); // форма не уходит
+      // Показать печенье
+      cookieImg.style.display = "block";
+      cookieImg.classList.add("jump");
+      setTimeout(() => cookieImg.classList.remove("jump"), 200);
+    });
+
+    // Дополнительно: при клике на печенье — оно подпрыгивает
+    cookieImg.addEventListener("click", () => {
+      cookieImg.classList.add("jump");
+      setTimeout(() => cookieImg.classList.remove("jump"), 200);
     });
   </script>
 </body>
