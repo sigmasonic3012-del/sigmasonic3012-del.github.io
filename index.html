@@ -46,7 +46,8 @@
 <body>
   <h1>Sign Up Cookie Clicker</h1>
 
-  <form id="myForm" action="/.netlify/functions/verify-captcha" method="POST">
+  <!-- Убрали action и method, чтобы не было 405 ошибки -->
+  <form id="myForm">
     <label for="username">Name:</label>
     <input type="text" name="username" id="username" required><br><br>
 
@@ -90,7 +91,7 @@
       setTimeout(() => cookieImg.classList.remove("jump"), 200);
     });
 
-    // Дополнительно: при клике на печенье — оно подпрыгивает
+    // При клике на печенье — оно подпрыгивает
     cookieImg.addEventListener("click", () => {
       cookieImg.classList.add("jump");
       setTimeout(() => cookieImg.classList.remove("jump"), 200);
